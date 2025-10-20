@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Palatino:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+    font-family: 'Palatino', 'Palatino Linotype', 'Book Antiqua', serif;
+}
+
+.formula-box {
+    background-color: #f0fdfa;
+    border-left: 4px solid #349192;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0.25rem;
+    max-height: 500px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    font-family: 'Palatino', serif;
+}
+
+.formula-box.collapsed {
+    max-height: 150px;
+    overflow-y: hidden;
+}
+
+.expand-btn {
+    background: rgba(52, 145, 146, 0.1);
+    border: none;
+    color: #349192;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    font-family: 'Palatino', serif;
+}
+
+.solution-step {
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    font-family: 'Palatino', serif;
+}
+
+.loading-dots:after {
+    content: '...';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { color: rgba(0,0,0,0); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+    40% { color: black; text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+    60% { text-shadow: .25em 0 0 black, .5em 0 0 rgba(0,0,0,0); }
+    80%, 100% { text-shadow: .25em 0 0 black, .5em 0 0 black; }
+}
+
+.formula-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.formula-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.formula-box::-webkit-scrollbar-thumb {
+    background: #349192;
+    border-radius: 3px;
+}
+
+/* Custom color scheme with RGB(52,145,146), RGB(62,185,186), RGB(72,135,136) */
+.bg-teal-50 { background-color: rgb(240 253 250); }
+.bg-teal-100 { background-color: rgb(204 251 241); }
+.bg-teal-500 { background-color: rgb(72, 135, 136); } /* RGB(72,135,136) */
+.bg-teal-600 { background-color: rgb(62, 185, 186); } /* RGB(62,185,186) */
+.bg-teal-700 { background-color: rgb(52, 145, 146); } /* RGB(52,145,146) */
+.text-teal-600 { color: rgb(62, 185, 186); }
+.text-teal-700 { color: rgb(52, 145, 146); }
+.border-teal-200 { border-color: rgb(153 246 228); }
+
+.from-teal-600 { --tw-gradient-from: rgb(52, 145, 146); }
+.to-teal-500 { --tw-gradient-to: rgb(62, 185, 186); }
+
+/* Additional custom colors for better consistency */
+.hover\:bg-teal-700:hover { background-color: rgb(42, 125, 126); }
+.hover\:bg-teal-600:hover { background-color: rgb(52, 165, 166); }
