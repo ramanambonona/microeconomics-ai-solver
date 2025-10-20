@@ -1,32 +1,30 @@
-import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any, Union
+from typing import List, Optional, Dict, Any
 import sympy as sp
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('Agg')  # Important pour Render
 import matplotlib.pyplot as plt
 import io
 import base64
+import os
 from sde_solver import SDESolver
 
 app = FastAPI(title="SDE Symbolic Solver API", version="1.0.0")
 
-
-# CORS middleware 
 origins = [
     "http://localhost:3000",
     "http://localhost:8000",
+    "https://sde-solver.netlify.app",  # Remplacez par votre URL Netlify
 ]
 
-# URL Netlify with production
-if os.environ.get("NETLIFY_URL"):
-    origins.append(os.environ.get("NETLIFY_URL"))
+netlify_url = os.environ.get("NETLIFY_URL")
+if netlify_url:
+    origins.append(netlify_url)
 
-# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -35,6 +33,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class SDEProblem(BaseModel):
+    equation_type: str
+    drift: str
+    diffusion: str
+    initial_condition: Optional[str] = None
+    variables: Optional[Dict[str, str]] = None
+    parameters: Optional[Dict[str, float]] = None
+
+class SimulationRequest(BaseModel):
+    equation_type: str
+    drift: str
+    diffusion: str
+    initial_condition: str
+    parameters: Dict[str, float]
+    time_span: List[float] = [0, 1]
+    num_points: int = 100
+    num_trajectories: int = 5
 
 class SDEProblem(BaseModel):
     equation_type: str  # "ito" or "stratonovich"
@@ -199,7 +214,15 @@ async def get_examples():
         }
     }
     return examples
+@app.get("/")
+async def root():
+    return {"message": "SDE Symbolic Solver API", "version": "1.0.0"}
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "environment": os.environ.get("ENVIRONMENT", "development")}
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
