@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Microeconomics AI Solver API")
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
