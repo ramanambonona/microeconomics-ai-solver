@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+import re
 from pydantic import BaseModel
 import os
 import json
@@ -7,21 +8,22 @@ import logging
 import requests
 from typing import Optional, List, Dict
 
+
 # Configuration du logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Microeconomics AI Solver API")
 
-# Configuration CORS pour le frontend GitHub Pages
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "http://localhost:8000", 
+        "http://localhost:8000",
         "https://microeconomicsai-solver.github.io",
-        "https://*.github.io"
     ],
+    allow_origin_regex=r"^https://.*\.github\.io$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
