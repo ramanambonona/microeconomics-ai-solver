@@ -20,12 +20,12 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:8000",
-        "https://ramanambonona.github.io/microeconomicsAI-solver",
+        "https://ramanambonona.github.io",   # domaine exact
     ],
-    allow_origin_regex=r"^https://.*\.github\.io$",
-    allow_credentials=True,
+    allow_origin_regex=r"^https://([a-zA-Z0-9-]+)\.github\.io$",  # sous-domaines éventuels
+    allow_credentials=False,   # True seulement si tu envoies des cookies/headers sensibles cross-site
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["Content-Type", "Authorization"],  # ajoute "Authorization" si tu l'utilises
 )
 
 class ProblemRequest(BaseModel):
