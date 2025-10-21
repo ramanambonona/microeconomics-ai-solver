@@ -5,7 +5,7 @@ import os
 import json
 import logging
 import requests
-from typing import List, Dict, Optional
+from typing import Optional, List, Dict
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO)
@@ -29,20 +29,20 @@ app.add_middleware(
 
 class ProblemRequest(BaseModel):
     type: str
-    params: dict
+    params: Dict
     description: str = ""
-    settings: dict = {}
+    settings: Dict = {}
     provider: str = "deepseek"
-    user_api_key: str  # L'utilisateur fournit sa clé API
+    user_api_key: str
 
 class Step(BaseModel):
     title: str
     content: str
 
 class ProblemResponse(BaseModel):
-    steps: list[Step]
+    steps: List[Step]
     final: str
-    token_usage: dict = None
+    token_usage: Optional[Dict] = None
     provider: str
     success: bool = True
 
@@ -150,7 +150,7 @@ def call_openai_api(prompt: str, api_key: str):
         else:
             raise Exception(f"OpenAI error: {str(e)}")
 
-def get_demo_response(problem_type: str, params: dict):
+def get_demo_response(problem_type: str, params: Dict):
     """Réponses de démonstration pré-définies"""
     demo_responses = {
         "consumer": {
@@ -173,25 +173,6 @@ def get_demo_response(problem_type: str, params: dict):
                 {"title": "Conditional Labor Demand", "content": "L^* = Q \\\\left(\\\\frac{\\\\alpha r}{(1-\\\\alpha) w}\\\\right)^{1-\\\\alpha}"}
             ],
             "final": "L^* = Q \\\\left(\\\\frac{\\\\alpha r}{(1-\\\\alpha) w}\\\\right)^{1-\\\\alpha}, \\\\quad K^* = Q \\\\left(\\\\frac{(1-\\\\alpha) w}{\\\\alpha r}\\\\right)^{\\\\alpha}"
-        },
-        "market": {
-            "steps": [
-                {"title": "Demand Function", "content": "Q_d = a - bP"},
-                {"title": "Supply Function", "content": "Q_s = c + dP"},
-                {"title": "Equilibrium Condition", "content": "Q_d = Q_s"},
-                {"title": "Equilibrium Equation", "content": "a - bP = c + dP"},
-                {"title": "Equilibrium Price", "content": "P^* = \\\\frac{a - c}{b + d}"}
-            ],
-            "final": "P^* = \\\\frac{a - c}{b + d}, \\\\quad Q^* = \\\\frac{ad + bc}{b + d}"
-        },
-        "game": {
-            "steps": [
-                {"title": "Payoff Matrix", "content": "\\\\begin{pmatrix} (3,3) & (0,5) \\\\\\\\ (5,0) & (1,1) \\\\end{pmatrix}"},
-                {"title": "Nash Equilibrium", "content": "Finding best responses"},
-                {"title": "Strategy Analysis", "content": "Mutual defection is an equilibrium"},
-                {"title": "Prisoner's Dilemma", "content": "Equilibrium is not socially optimal"}
-            ],
-            "final": "Nash Equilibrium: (Defect, Defect) with payoffs (1,1)"
         }
     }
     
@@ -261,7 +242,6 @@ async def solve_problem(request: ProblemRequest):
         
     except Exception as e:
         logger.error(f"Error solving problem: {str(e)}")
-        # Retourner une réponse d'erreur structurée
         return ProblemResponse(
             steps=[Step(title="Error", content=f"Error with {request.provider}: {str(e)}")],
             final=f"Cannot solve problem: {str(e)}",
@@ -269,7 +249,7 @@ async def solve_problem(request: ProblemRequest):
             success=False
         )
 
-def build_prompt(problem_type: str, params: dict, description: str = "", settings: dict = None) -> str:
+def build_prompt(problem_type: str, params: Dict, description: str = "", settings: Dict = None) -> str:
     """Construit le prompt pour l'API"""
     
     prompt = f"Solve this microeconomics problem of type {problem_type}.\n\n"
@@ -322,7 +302,6 @@ def parse_api_response(response: str) -> ProblemResponse:
         
     except (json.JSONDecodeError, ValueError) as e:
         logger.warning(f"Failed to parse API response as JSON: {e}")
-        # Fallback: créer une réponse basique
         return ProblemResponse(
             steps=[Step(title="AI Response", content=response)],
             final=response[:200] + "..." if len(response) > 200 else response
