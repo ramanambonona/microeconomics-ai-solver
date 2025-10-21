@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples | MicroSolver AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-pink-50 min-h-screen">
+    <nav class="bg-rose-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-feather="dollar-sign" class="w-6 h-6"></i>
+                <span class="text-xl font-bold">MicroSolver AI</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-rose-200 font-medium">Home</a>
+                <a href="problems.html" class="hover:text-rose-200 font-medium">Problems</a>
+                <a href="tutorials.html" class="hover:text-rose-200 font-medium">Tutorials</a>
+                <a href="about.html" class="hover:text-rose-200 font-medium">About</a>
+            </div>
+            <button class="md:hidden">
+                <i data-feather="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="py-16 px-4 bg-gradient-to-r from-rose-500 to-pink-600 text-white">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Examples</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">See MicroSolver AI in action with real examples</p>
+        </div>
+    </section>
+
+    <section class="py-12 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Consumer Theory Examples -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i data-feather="shopping-cart" class="mr-3 text-rose-600"></i>
+                    Consumer Theory Examples
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-gray-800 mb-3">Cobb-Douglas Utility</h3>
+                        <div class="bg-gray-50 p-4 rounded mb-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Utility: x^0.5*y^0.5<br>
+                                Constraint: 100 - 2*x - 4*y
+                            </p>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Maximize utility with given prices and income</p>
+                        <a href="index.html" class="text-rose-600 hover:text-rose-700 text-sm font-medium">Try this example →</a>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-gray-800 mb-3">Perfect Substitutes</h3>
+                        <div class="bg-gray-50 p-4 rounded mb-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Utility: 2*x + 3*y<br>
+                                Constraint: 50 - 1*x - 1*y
+                            </p>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Linear utility with perfect substitution</p>
+                        <a href="index.html" class="text-rose-600 hover:text-rose-700 text-sm font-medium">Try this example →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Producer Theory Examples -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i data-feather="trending-up" class="mr-3 text-rose-600"></i>
+                    Producer Theory Examples
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-gray-800 mb-3">Cost Minimization</h3>
+                        <div class="bg-gray-50 p-4 rounded mb-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Production: L^0.6*K^0.4<br>
+                                Cost: 1000 - 20*L - 50*K<br>
+                                Target: 100
+                            </p>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Minimize cost for given output level</p>
+                        <a href="index.html" class="text-rose-600 hover:text-rose-700 text-sm font-medium">Try this example →</a>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-gray-800 mb-3">Profit Maximization</h3>
+                        <div class="bg-gray-50 p-4 rounded mb-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Production: L^0.5*K^0.5<br>
+                                Price: 10<br>
+                                Wages: 5, Rent: 2
+                            </p>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Maximize profit with given prices</p>
+                        <a href="index.html" class="text-rose-600 hover:text-rose-700 text-sm font-medium">Try this example →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Equilibrium Examples -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i data-feather="bar-chart-2" class="mr-3 text-rose-600"></i>
+                    Market Equilibrium Examples
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-gray-800 mb-3">Linear Market</h3>
+                        <div class="bg-gray-50 p-4 rounded mb-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Demand: 100 - 2*P<br>
+                                Supply: 20 + 3*P
+                            </p>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Find equilibrium price and quantity</p>
+                        <a href="index.html" class="text-rose-600 hover:text-rose-700 text-sm font-medium">Try this example →</a>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-gray-800 mb-3">Tax Incidence</h3>
+                        <div class="bg-gray-50 p-4 rounded mb-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Demand: 80 - P<br>
+                                Supply: 20 + 2*P<br>
+                                Tax: 5
+                            </p>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Analyze tax effects on market</p>
+                        <a href="index.html" class="text-rose-600 hover:text-rose-700 text-sm font-medium">Try this example →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Theory Examples -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i data-feather="users" class="mr-3 text-rose-600"></i>
+                    Game Theory Examples
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-gray-800 mb-3">Prisoner's Dilemma</h3>
+                        <div class="bg-gray-50 p-4 rounded mb-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Payoffs: [[(3,3),(0,5)],[(5,0),(1,1)]]
+                            </p>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Classic cooperation game analysis</p>
+                        <a href="index.html" class="text-rose-600 hover:text-rose-700 text-sm font-medium">Try this example →</a>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-gray-800 mb-3">Cournot Duopoly</h3>
+                        <div class="bg-gray-50 p-4 rounded mb-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Demand: P = 100 - Q1 - Q2<br>
+                                Cost: C1 = 20*Q1, C2 = 20*Q2
+                            </p>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Quantity competition between firms</p>
+                        <a href="index.html" class="text-rose-600 hover:text-rose-700 text-sm font-medium">Try this example →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-12 bg-rose-50 rounded-xl p-8 text-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Ready to Solve Your Own Problems?</h2>
+                <p class="text-gray-600 mb-6">Try these examples or create your own problems with our AI solver</p>
+                <a href="index.html" class="bg-rose-600 text-white px-6 py-3 rounded-lg hover:bg-rose-700 transition inline-flex items-center">
+                    Start Solving
+                    <i data-feather="arrow-right" class="ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8 px-4">
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i data-feather="dollar-sign" class="mr-2"></i>
+                        MicroSolver AI
+                    </h3>
+                    <p class="text-gray-400">Microeconomics problem solver with AI - 100% private</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="documentation.html" class="hover:text-white transition">Documentation</a></li>
+                        <li><a href="tutorials.html" class="hover:text-white transition">Tutorials</a></li>
+                        <li><a href="examples.html" class="hover:text-white transition">Examples</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="cookies.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/ramanambonona" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ambinintsoa-ramanambonona/" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="linkedin"></i>
+                        </a>
+                        <a href="mailto:ambinintsoa.uat.ead2@gmail.com" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="mail"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2025 MicroSolver AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation | MicroSolver AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-pink-50 min-h-screen">
+    <nav class="bg-rose-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-feather="dollar-sign" class="w-6 h-6"></i>
+                <span class="text-xl font-bold">MicroSolver AI</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-rose-200 font-medium">Home</a>
+                <a href="problems.html" class="hover:text-rose-200 font-medium">Problems</a>
+                <a href="tutorials.html" class="hover:text-rose-200 font-medium">Tutorials</a>
+                <a href="about.html" class="hover:text-rose-200 font-medium">About</a>
+            </div>
+            <button class="md:hidden">
+                <i data-feather="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="py-16 px-4 bg-gradient-to-r from-rose-500 to-pink-600 text-white">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Documentation</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Complete guide to using MicroSolver AI</p>
+        </div>
+    </section>
+
+    <section class="py-12 px-4">
+        <div class="container mx-auto max-w-4xl">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="prose max-w-none">
+                    <h2>Getting Started</h2>
+                    
+                    <h3>API Keys</h3>
+                    <p>MicroSolver AI requires you to provide your own API keys for AI services. This ensures complete privacy and control over your usage.</p>
+                    
+                    <h4>DeepSeek API (Recommended - Free)</h4>
+                    <ol>
+                        <li>Visit <a href="https://platform.deepseek.com/api_keys">DeepSeek Platform</a></li>
+                        <li>Create an account or sign in</li>
+                        <li>Generate a new API key</li>
+                        <li>Copy and save the key in the configuration section</li>
+                    </ol>
+                    
+                    <h4>OpenAI API (Paid)</h4>
+                    <ol>
+                        <li>Visit <a href="https://platform.openai.com/api-keys">OpenAI Platform</a></li>
+                        <li>Sign in to your account</li>
+                        <li>Create a new API key or use existing one</li>
+                        <li>Ensure you have sufficient credits</li>
+                    </ol>
+
+                    <h3>Problem Types</h3>
+                    
+                    <h4>Consumer Theory</h4>
+                    <p>Solve utility maximization problems with budget constraints:</p>
+                    <ul>
+                        <li><strong>Utility Function:</strong> U(x,y) = x^α * y^(1-α)</li>
+                        <li><strong>Budget Constraint:</strong> p_x*x + p_y*y = I</li>
+                    </ul>
+                    
+                    <h4>Producer Theory</h4>
+                    <p>Solve cost minimization and profit maximization problems:</p>
+                    <ul>
+                        <li><strong>Production Function:</strong> Q = L^α * K^(1-α)</li>
+                        <li><strong>Cost Constraint:</strong> C = wL + rK</li>
+                    </ul>
+                    
+                    <h4>Market Equilibrium</h4>
+                    <p>Find market equilibrium prices and quantities:</p>
+                    <ul>
+                        <li><strong>Demand Function:</strong> Q_d = a - bP</li>
+                        <li><strong>Supply Function:</strong> Q_s = c + dP</li>
+                    </ul>
+                    
+                    <h4>Game Theory</h4>
+                    <p>Analyze strategic interactions and find Nash equilibria:</p>
+                    <ul>
+                        <li><strong>Payoff Matrix:</strong> [[(3,3),(0,5)],[(5,0),(1,1)]]</li>
+                    </ul>
+
+                    <h3>Input Format</h3>
+                    <p>Use standard mathematical notation:</p>
+                    <table class="w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border border-gray-300 p-2">Operation</th>
+                                <th class="border border-gray-300 p-2">Notation</th>
+                                <th class="border border-gray-300 p-2">Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-300 p-2">Exponent</td>
+                                <td class="border border-gray-300 p-2">^</td>
+                                <td class="border border-gray-300 p-2">x^2, y^(1-alpha)</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 p-2">Multiplication</td>
+                                <td class="border border-gray-300 p-2">*</td>
+                                <td class="border border-gray-300 p-2">p_x * x</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 p-2">Division</td>
+                                <td class="border border-gray-300 p-2">/</td>
+                                <td class="border border-gray-300 p-2">I / p_x</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 p-2">Greek Letters</td>
+                                <td class="border border-gray-300 p-2">alpha, beta, gamma</td>
+                                <td class="border border-gray-300 p-2">x^alpha * y^beta</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Output Features</h3>
+                    
+                    <h4>Step-by-Step Solutions</h4>
+                    <p>The AI breaks down each problem into logical steps with detailed explanations.</p>
+                    
+                    <h4>LaTeX Mathematical Notation</h4>
+                    <p>All mathematical expressions are rendered using LaTeX for professional presentation.</p>
+                    
+                    <h4>Token Usage Tracking</h4>
+                    <p>Monitor your API usage with detailed token counts for each request.</p>
+                    
+                    <h4>Export Options</h4>
+                    <p>Download solutions as text files or copy LaTeX code for use in documents.</p>
+
+                    <h3>Privacy & Security</h3>
+                    <ul>
+                        <li>API keys are stored locally in your browser</li>
+                        <li>No user data is stored on our servers</li>
+                        <li>Problems are sent directly to the AI API provider</li>
+                        <li>No tracking or analytics</li>
+                    </ul>
+
+                    <h3>Troubleshooting</h3>
+                    
+                    <h4>Common Error Messages</h4>
+                    <ul>
+                        <li><strong>Invalid API Key:</strong> Check your API key format and validity</li>
+                        <li><strong>Quota Exceeded:</strong> Your API provider has usage limits</li>
+                        <li><strong>Network Error:</strong> Check your internet connection</li>
+                        <li><strong>Backend Unavailable:</strong> Our server may be temporarily down</li>
+                    </ul>
+                    
+                    <h4>Performance Tips</h4>
+                    <ul>
+                        <li>Use DeepSeek API for free access with generous limits</li>
+                        <li>Keep problem descriptions concise</li>
+                        <li>Use standard mathematical notation</li>
+                        <li>Check your API provider's status page for outages</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8 px-4">
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i data-feather="dollar-sign" class="mr-2"></i>
+                        MicroSolver AI
+                    </h3>
+                    <p class="text-gray-400">Microeconomics problem solver with AI - 100% private</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="documentation.html" class="hover:text-white transition">Documentation</a></li>
+                        <li><a href="tutorials.html" class="hover:text-white transition">Tutorials</a></li>
+                        <li><a href="examples.html" class="hover:text-white transition">Examples</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="cookies.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/ramanambonona" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ambinintsoa-ramanambonona/" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="linkedin"></i>
+                        </a>
+                        <a href="mailto:ambinintsoa.uat.ead2@gmail.com" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="mail"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2025 MicroSolver AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

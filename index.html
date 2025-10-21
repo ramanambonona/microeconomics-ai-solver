@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroSolver AI | Microeconomics Problem Solver</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <style>
+        .formula-box {
+            background-color: #fff5f7;
+            border-left: 4px solid #c2185b;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0.25rem;
+            max-height: 500px;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .formula-box.collapsed {
+            max-height: 150px;
+            overflow-y: hidden;
+        }
+        
+        .formula-box.error {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
+        }
+        
+        .expand-btn {
+            background: rgba(194, 24, 91, 0.1);
+            border: none;
+            color: #c2185b;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        
+        .solution-step {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+        
+        .solution-step.error {
+            border-color: #fecaca;
+        }
+        
+        .loading-dots:after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { color: rgba(0,0,0,0); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+            40% { color: black; text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+            60% { text-shadow: .25em 0 0 black, .5em 0 0 rgba(0,0,0,0); }
+            80%, 100% { text-shadow: .25em 0 0 black, .5em 0 0 black; }
+        }
+
+        .formula-box::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .formula-box::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .formula-box::-webkit-scrollbar-thumb {
+            background: #c2185b;
+            border-radius: 3px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        .provider-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #c2185b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-pink-50 min-h-screen">
+    <nav class="bg-rose-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-feather="dollar-sign" class="w-6 h-6"></i>
+                <span class="text-xl font-bold">MicroSolver AI</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-rose-200 font-medium">Home</a>
+                <a href="problems.html" class="hover:text-rose-200 font-medium">Problems</a>
+                <a href="tutorials.html" class="hover:text-rose-200 font-medium">Tutorials</a>
+                <a href="about.html" class="hover:text-rose-200 font-medium">About</a>
+            </div>
+            <button class="md:hidden">
+                <i data-feather="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="py-16 px-4 bg-gradient-to-r from-rose-500 to-pink-600 text-white">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Microeconomics AI Solver</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Step-by-step solutions with your own API keys - 100% private</p>
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl mx-auto mb-8">
+                <div class="flex items-center justify-center space-x-4 text-sm">
+                    <div class="flex items-center">
+                        <i data-feather="shield" class="w-4 h-4 mr-1"></i>
+                        <span>Private API Keys</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i data-feather="zap" class="w-4 h-4 mr-1"></i>
+                        <span>Step-by-Step Solutions</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i data-feather="code" class="w-4 h-4 mr-1"></i>
+                        <span>LaTeX Output</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Configuration Section -->
+    <section class="py-8 px-4 bg-white border-b">
+        <div class="container mx-auto max-w-4xl">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                <h3 class="font-bold text-lg text-blue-800 mb-4 flex items-center">
+                    <i data-feather="key" class="mr-2"></i>
+                    API Keys Configuration
+                </h3>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-4">
+                    <!-- DeepSeek -->
+                    <div class="bg-white p-4 rounded-lg border relative">
+                        <span class="provider-badge">Free</span>
+                        <h4 class="font-bold text-gray-800 mb-2 flex items-center">
+                            <i data-feather="cpu" class="mr-2 text-green-600"></i>
+                            DeepSeek API
+                        </h4>
+                        <p class="text-sm text-gray-600 mb-3">
+                            Get free API key at 
+                            <a href="https://platform.deepseek.com/api_keys" target="_blank" class="text-blue-600 underline">platform.deepseek.com</a>
+                        </p>
+                        <input type="password" 
+                               id="deepseekApiKey" 
+                               placeholder="sk-..." 
+                               class="border rounded-lg px-3 py-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <button onclick="saveApiKey('deepseek')" class="bg-green-600 text-white px-3 py-1 rounded-lg text-sm mt-2 hover:bg-green-700 transition">
+                            Save
+                        </button>
+                    </div>
+
+                    <!-- OpenAI -->
+                    <div class="bg-white p-4 rounded-lg border relative">
+                        <span class="provider-badge">Paid</span>
+                        <h4 class="font-bold text-gray-800 mb-2 flex items-center">
+                            <i data-feather="star" class="mr-2 text-purple-600"></i>
+                            OpenAI API
+                        </h4>
+                        <p class="text-sm text-gray-600 mb-3">
+                            Paid API key from 
+                            <a href="https://platform.openai.com/api-keys" target="_blank" class="text-blue-600 underline">platform.openai.com</a>
+                        </p>
+                        <input type="password" 
+                               id="openaiApiKey" 
+                               placeholder="sk-..." 
+                               class="border rounded-lg px-3 py-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <button onclick="saveApiKey('openai')" class="bg-purple-600 text-white px-3 py-1 rounded-lg text-sm mt-2 hover:bg-purple-700 transition">
+                            Save
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <i data-feather="info" class="w-5 h-5 text-yellow-600 mr-3 mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-yellow-800">
+                                <strong>Your API keys stay on your device</strong> and are never sent to our servers. 
+                                They are used only to call the respective APIs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Solver Section -->
+    <section class="py-12 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6 border-b bg-pink-50">
+                    <h2 class="text-2xl font-bold text-gray-800">Microeconomics Problem Solver</h2>
+                    <p class="text-gray-600">Describe your problem in natural language or use mathematical notation.</p>
+                    <div id="tokenUsage" class="text-sm mt-2 hidden"></div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-0">
+                    <div class="bg-pink-50 p-6 border-r">
+                        <h3 class="font-bold text-lg mb-4 text-rose-700">Problem Type</h3>
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center">
+                                <input type="radio" id="consumer" name="problemType" class="mr-3" checked value="consumer">
+                                <label for="consumer" class="text-gray-700">Consumer Theory</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="producer" name="problemType" class="mr-3" value="producer">
+                                <label for="producer" class="text-gray-700">Producer Theory</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="market" name="problemType" class="mr-3" value="market">
+                                <label for="market" class="text-gray-700">Market Equilibrium</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="game" name="problemType" class="mr-3" value="game">
+                                <label for="game" class="text-gray-700">Game Theory</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h4 class="font-bold text-sm mb-3 text-gray-700">AI Provider</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="aiProvider" value="deepseek" checked class="mr-2">
+                                    <span class="text-sm">DeepSeek (Free)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="aiProvider" value="openai" class="mr-2">
+                                    <span class="text-sm">OpenAI (Paid)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <h4 class="font-bold text-sm mb-3 text-gray-700">Settings</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="showDetailedSteps" checked class="mr-2">
+                                    <span class="text-sm">Detailed steps</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="useLaTeX" checked class="mr-2">
+                                    <span class="text-sm">LaTeX formatting</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 p-6">
+                        <div id="consumerInputs" class="space-y-4">
+                            <div>
+                                <label for="utility" class="block text-sm font-medium text-gray-700">Utility Function</label>
+                                <input type="text" id="utility" class="border rounded-lg px-3 py-2 w-full mt-1" placeholder="e.g., x^alpha*y^(1-alpha)" value="x^alpha*y^(1-alpha)">
+                            </div>
+                            <div>
+                                <label for="constraint" class="block text-sm font-medium text-gray-700">Budget Constraint</label>
+                                <input type="text" id="constraint" class="border rounded-lg px-3 py-2 w-full mt-1" placeholder="e.g., I - p_x*x - p_y*y" value="I - p_x*x - p_y*y">
+                            </div>
+                        </div>
+                        <div id="producerInputs" class="space-y-4 hidden">
+                            <div>
+                                <label for="production" class="block text-sm font-medium text-gray-700">Production Function</label>
+                                <input type="text" id="production" class="border rounded-lg px-3 py-2 w-full mt-1" placeholder="e.g., L^alpha*K^(1-alpha)">
+                            </div>
+                            <div>
+                                <label for="cost" class="block text-sm font-medium text-gray-700">Cost Constraint</label>
+                                <input type="text" id="cost" class="border rounded-lg px-3 py-2 w-full mt-1" placeholder="e.g., C - w*L - r*K">
+                            </div>
+                            <div>
+                                <label for="targetOutput" class="block text-sm font-medium text-gray-700">Target Output</label>
+                                <input type="text" id="targetOutput" class="border rounded-lg px-3 py-2 w-full mt-1" placeholder="e.g., Q">
+                            </div>
+                        </div>
+                        <div id="marketInputs" class="space-y-4 hidden">
+                            <div>
+                                <label for="demand" class="block text-sm font-medium text-gray-700">Demand Function</label>
+                                <input type="text" id="demand" class="border rounded-lg px-3 py-2 w-full mt-1" placeholder="e.g., a - b*P">
+                            </div>
+                            <div>
+                                <label for="supply" class="block text-sm font-medium text-gray-700">Supply Function</label>
+                                <input type="text" id="supply" class="border rounded-lg px-3 py-2 w-full mt-1" placeholder="e.g., c + d*P">
+                            </div>
+                        </div>
+                        <div id="gameInputs" class="space-y-4 hidden">
+                            <div>
+                                <label for="payoffs" class="block text-sm font-medium text-gray-700">Payoff Matrix</label>
+                                <input type="text" id="payoffs" class="border rounded-lg px-3 py-2 w-full mt-1" placeholder="e.g., [[(3,3),(0,5)],[(5,0),(1,1)]]">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label for="problemDescription" class="block text-sm font-medium text-gray-700">
+                                Problem Description (Optional)
+                            </label>
+                            <textarea 
+                                id="problemDescription" 
+                                rows="3"
+                                class="border rounded-lg px-3 py-2 w-full mt-1"
+                                placeholder="Describe your problem in words..."></textarea>
+                        </div>
+
+                        <button id="solveBtn" class="bg-rose-600 text-white px-6 py-3 rounded-lg mt-6 hover:bg-rose-700 transition flex items-center w-full justify-center" onclick="solveWithAI()">
+                            <span id="solveText">Solve with AI</span>
+                            <i data-feather="cpu" class="ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Solution Display -->
+                <div class="p-6">
+                    <div id="errorContainer" class="hidden"></div>
+                    
+                    <div id="aiThinking" class="hidden text-center py-8">
+                        <div class="flex flex-col items-center">
+                            <i data-feather="cpu" class="w-12 h-12 text-rose-500 mb-4 animate-pulse"></i>
+                            <p class="text-lg font-semibold text-gray-700">AI is thinking</p>
+                            <p class="text-gray-500 loading-dots">Generating solution</p>
+                            <div class="w-48 bg-gray-200 rounded-full h-2 mt-4">
+                                <div class="bg-rose-500 h-2 rounded-full animate-pulse" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="solutionSteps" class="space-y-4"></div>
+                    
+                    <div id="finalAnswer" class="mt-6 hidden">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-lg text-gray-800">Final Answer</h3>
+                            <button onclick="toggleAllBoxes()" class="text-sm text-rose-600 hover:text-rose-800 flex items-center">
+                                <i data-feather="maximize-2" class="w-4 h-4 mr-1"></i>
+                                <span id="toggleAllText">Expand All</span>
+                            </button>
+                        </div>
+                        <div class="formula-box" id="finalFormula"></div>
+                    </div>
+                    
+                    <div id="downloadSection" class="mt-4 hidden flex gap-2">
+                        <button onclick="downloadSolution()" class="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition flex items-center">
+                            <i data-feather="download" class="mr-2"></i>
+                            Download
+                        </button>
+                        <button onclick="copySolution()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition flex items-center">
+                            <i data-feather="copy" class="mr-2"></i>
+                            Copy LaTeX
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8 px-4">
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i data-feather="dollar-sign" class="mr-2"></i>
+                        MicroSolver AI
+                    </h3>
+                    <p class="text-gray-400">Microeconomics problem solver with AI - 100% private</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="documentation.html" class="hover:text-white transition">Documentation</a></li>
+                        <li><a href="tutorials.html" class="hover:text-white transition">Tutorials</a></li>
+                        <li><a href="examples.html" class="hover:text-white transition">Examples</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="cookies.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/ramanambonona" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ambinintsoa-ramanambonona/" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="linkedin"></i>
+                        </a>
+                        <a href="mailto:ambinintsoa.uat.ead2@gmail.com" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="mail"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2025 MicroSolver AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+        
+        // =============================================
+        // IMPORTANT CONFIGURATION: BACKEND URL
+        // =============================================
+        // Replace the URL below with your actual Koyeb backend URL
+        const BACKEND_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:8000' 
+            : 'https://YOUR-BACKEND-NAME.koyeb.app'; // ← REPLACE WITH YOUR KOYEB URL
+        
+        // API Keys Management
+        function saveApiKey(provider) {
+            const apiKey = document.getElementById(`${provider}ApiKey`).value;
+            if (apiKey) {
+                localStorage.setItem(`${provider}_api_key`, apiKey);
+                showNotification(`${provider} API key saved locally`, 'success');
+            } else {
+                showNotification('Please enter an API key', 'error');
+            }
+        }
+        
+        function getApiKey(provider) {
+            return localStorage.getItem(`${provider}_api_key`);
+        }
+
+        function loadApiKeys() {
+            const deepseekKey = getApiKey('deepseek');
+            const openaiKey = getApiKey('openai');
+            
+            if (deepseekKey) {
+                document.getElementById('deepseekApiKey').value = deepseekKey;
+            }
+            if (openaiKey) {
+                document.getElementById('openaiApiKey').value = openaiKey;
+            }
+        }
+
+        // Toggle input fields based on problem type
+        document.querySelectorAll('input[name="problemType"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.getElementById('consumerInputs').classList.toggle('hidden', radio.value !== 'consumer');
+                document.getElementById('producerInputs').classList.toggle('hidden', radio.value !== 'producer');
+                document.getElementById('marketInputs').classList.toggle('hidden', radio.value !== 'market');
+                document.getElementById('gameInputs').classList.toggle('hidden', radio.value !== 'game');
+            });
+        });
+
+        // AI Solving
+        async function solveWithAI() {
+            const provider = document.querySelector('input[name="aiProvider"]:checked').value;
+            const apiKey = getApiKey(provider);
+            
+            if (!apiKey) {
+                showNotification(`Please configure your ${provider} API key first`, 'error');
+                return;
+            }
+
+            const btn = document.getElementById('solveBtn');
+            const thinkingDiv = document.getElementById('aiThinking');
+            const stepsContainer = document.getElementById('solutionSteps');
+            const errorContainer = document.getElementById('errorContainer');
+            const finalAnswer = document.getElementById('finalAnswer');
+            const downloadSection = document.getElementById('downloadSection');
+            const tokenUsage = document.getElementById('tokenUsage');
+
+            // Initial state
+            btn.disabled = true;
+            thinkingDiv.classList.remove('hidden');
+            stepsContainer.innerHTML = '';
+            errorContainer.classList.add('hidden');
+            finalAnswer.classList.add('hidden');
+            downloadSection.classList.add('hidden');
+            tokenUsage.classList.add('hidden');
+
+            try {
+                const type = document.querySelector('input[name="problemType"]:checked').value;
+                const description = document.getElementById('problemDescription').value;
+                
+                let params = {};
+                
+                // Secure parameter retrieval
+                if (type === 'consumer') {
+                    const utilityElem = document.getElementById('utility');
+                    const constraintElem = document.getElementById('constraint');
+                    if (utilityElem) params.utility = utilityElem.value.trim();
+                    if (constraintElem) params.constraint = constraintElem.value.trim();
+                } else if (type === 'producer') {
+                    const productionElem = document.getElementById('production');
+                    const costElem = document.getElementById('cost');
+                    const targetOutputElem = document.getElementById('targetOutput');
+                    if (productionElem) params.production = productionElem.value.trim();
+                    if (costElem) params.cost = costElem.value.trim();
+                    if (targetOutputElem) params.target_output = targetOutputElem.value.trim();
+                } else if (type === 'market') {
+                    const demandElem = document.getElementById('demand');
+                    const supplyElem = document.getElementById('supply');
+                    if (demandElem) params.demand = demandElem.value.trim();
+                    if (supplyElem) params.supply = supplyElem.value.trim();
+                } else if (type === 'game') {
+                    const payoffsElem = document.getElementById('payoffs');
+                    if (payoffsElem) params.payoffs = payoffsElem.value.trim();
+                }
+
+                const settings = {
+                    detailed_steps: document.getElementById('showDetailedSteps').checked,
+                    use_latex: document.getElementById('useLaTeX').checked
+                };
+
+                console.log('Sending request to:', BACKEND_URL);
+
+                const response = await fetch(`${BACKEND_URL}/solve`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        type, 
+                        params,
+                        description,
+                        settings,
+                        provider,
+                        user_api_key: apiKey
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Response received:', data);
+                
+                if (!data.success) {
+                    throw new Error(data.final || 'Error during solving');
+                }
+                
+                // Show token usage
+                if (data.token_usage) {
+                    tokenUsage.innerHTML = `Tokens used: ${data.token_usage.total} (Prompt: ${data.token_usage.prompt}, Completion: ${data.token_usage.completion})`;
+                    tokenUsage.classList.remove('hidden');
+                }
+
+                // Display steps
+                stepsContainer.innerHTML = '';
+                if (data.steps && Array.isArray(data.steps)) {
+                    data.steps.forEach((step, idx) => {
+                        if (step.title && step.content) {
+                            addStep(idx + 1, step.title, step.content, data.provider);
+                        }
+                    });
+                }
+                
+                // Display final answer
+                if (data.final) {
+                    document.getElementById('finalFormula').innerHTML = `$$${data.final}$$`;
+                    finalAnswer.classList.remove('hidden');
+                    downloadSection.classList.remove('hidden');
+                }
+
+                showNotification('Solution generated successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error:', error);
+                errorContainer.classList.remove('hidden');
+                errorContainer.innerHTML = `
+                    <div class="error-message">
+                        <h4 class="font-bold mb-2">Solving Error</h4>
+                        <p>${error.message}</p>
+                        <p class="text-sm mt-2">Check your API key and internet connection.</p>
+                    </div>
+                `;
+                showNotification('Error generating solution', 'error');
+            } finally {
+                btn.disabled = false;
+                thinkingDiv.classList.add('hidden');
+                feather.replace();
+                // Re-trigger MathJax rendering
+                if (typeof MathJax !== 'undefined') {
+                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                }
+            }
+        }
+
+        // Dynamic content management functions
+        function addStep(number, title, content, provider) {
+            const stepsContainer = document.getElementById('solutionSteps');
+            const step = document.createElement('div');
+            step.className = 'solution-step p-4 rounded-lg fade-in-up';
+            
+            const providerColor = provider === 'deepseek' ? 'text-green-600' : 'text-purple-600';
+            const providerIcon = provider === 'deepseek' ? 'cpu' : 'star';
+            
+            step.innerHTML = `
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center">
+                        <span class="bg-rose-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0">${number}</span>
+                        <span class="font-semibold text-gray-800">${title}</span>
+                        <span class="ml-2 text-xs ${providerColor} flex items-center">
+                            <i data-feather="${providerIcon}" class="w-3 h-3 mr-1"></i>
+                            ${provider}
+                        </span>
+                    </div>
+                    <button class="expand-btn" onclick="toggleStep(this)">
+                        Expand
+                    </button>
+                </div>
+                <div class="formula-box collapsed">
+                    $${content}$
+                </div>
+            `;
+            
+            stepsContainer.appendChild(step);
+        }
+
+        function toggleStep(button) {
+            const formulaBox = button.closest('.solution-step').querySelector('.formula-box');
+            const isCollapsed = formulaBox.classList.contains('collapsed');
+            
+            formulaBox.classList.toggle('collapsed');
+            button.textContent = isCollapsed ? 'Collapse' : 'Expand';
+            feather.replace();
+        }
+
+        function toggleAllBoxes() {
+            const toggleBtn = document.getElementById('toggleAllText');
+            const boxes = document.querySelectorAll('.formula-box');
+            const expandBtns = document.querySelectorAll('.expand-btn');
+            
+            const allExpanded = Array.from(boxes).every(box => !box.classList.contains('collapsed'));
+            
+            boxes.forEach(box => {
+                if (allExpanded) {
+                    box.classList.add('collapsed');
+                } else {
+                    box.classList.remove('collapsed');
+                }
+            });
+            
+            expandBtns.forEach(btn => {
+                btn.textContent = allExpanded ? 'Expand' : 'Collapse';
+            });
+            
+            toggleBtn.textContent = allExpanded ? 'Expand All' : 'Collapse All';
+            feather.replace();
+        }
+
+        function downloadSolution() {
+            const steps = document.getElementById('solutionSteps').innerText;
+            const finalAnswer = document.getElementById('finalFormula').innerText;
+            
+            const content = `Microeconomics AI Solution\n\nSteps:\n${steps}\n\nFinal Answer:\n${finalAnswer}`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'microeconomics_solution.txt';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showNotification('Solution downloaded!', 'success');
+        }
+
+        function copySolution() {
+            const finalAnswer = document.getElementById('finalFormula').innerText;
+            navigator.clipboard.writeText(finalAnswer).then(() => {
+                showNotification('LaTeX copied to clipboard!', 'success');
+            });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            } text-white z-50 transition-all duration-300`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            loadApiKeys();
+            
+            // Initial state
+            document.getElementById('consumerInputs').classList.remove('hidden');
+            
+            // Test backend connection
+            fetch(`${BACKEND_URL}/health`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Backend connection:', data);
+                    showNotification('Connected to backend server', 'success');
+                })
+                .catch(error => {
+                    console.warn('Backend unreachable:', error);
+                    showNotification('Cannot connect to backend', 'error');
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorials | MicroSolver AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-pink-50 min-h-screen">
+    <nav class="bg-rose-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-feather="dollar-sign" class="w-6 h-6"></i>
+                <span class="text-xl font-bold">MicroSolver AI</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-rose-200 font-medium">Home</a>
+                <a href="problems.html" class="hover:text-rose-200 font-medium">Problems</a>
+                <a href="tutorials.html" class="hover:text-rose-200 font-medium">Tutorials</a>
+                <a href="about.html" class="hover:text-rose-200 font-medium">About</a>
+            </div>
+            <button class="md:hidden">
+                <i data-feather="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="py-16 px-4 bg-gradient-to-r from-rose-500 to-pink-600 text-white">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Tutorials</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Learn how to use MicroSolver AI effectively</p>
+        </div>
+    </section>
+
+    <section class="py-12 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <!-- Getting Started -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="play" class="mr-3 text-rose-600"></i>
+                        Getting Started
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">1. Obtain API Keys</h3>
+                            <p class="text-gray-600 text-sm">Get free DeepSeek API key or use OpenAI API key</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">2. Configure Your Keys</h3>
+                            <p class="text-gray-600 text-sm">Save your API keys securely in the configuration section</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">3. Choose Problem Type</h3>
+                            <p class="text-gray-600 text-sm">Select from Consumer, Producer, Market, or Game Theory</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Format -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="edit-3" class="mr-3 text-rose-600"></i>
+                        Input Format Guide
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Mathematical Notation</h3>
+                            <p class="text-gray-600 text-sm">Use ^ for exponents, * for multiplication</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Variables</h3>
+                            <p class="text-gray-600 text-sm">x, y for goods; p_x, p_y for prices; I for income</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Greek Letters</h3>
+                            <p class="text-gray-600 text-sm">Use alpha, beta, gamma for parameters</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Tutorials -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-12">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Video Tutorials</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="bg-gray-100 rounded-lg p-8 mb-4">
+                            <i data-feather="play-circle" class="w-12 h-12 text-rose-600 mx-auto"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Basic Usage</h3>
+                        <p class="text-gray-600 text-sm">How to solve your first problem</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-100 rounded-lg p-8 mb-4">
+                            <i data-feather="settings" class="w-12 h-12 text-rose-600 mx-auto"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">API Configuration</h3>
+                        <p class="text-gray-600 text-sm">Setting up DeepSeek and OpenAI</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-100 rounded-lg p-8 mb-4">
+                            <i data-feather="book-open" class="w-12 h-12 text-rose-600 mx-auto"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Advanced Features</h3>
+                        <p class="text-gray-600 text-sm">Using LaTeX and detailed steps</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Start Guide -->
+            <div class="bg-rose-50 rounded-xl p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Quick Start Guide</h2>
+                <div class="prose max-w-none">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Step 1: Get Your API Key</h3>
+                    <p class="text-gray-600 mb-4">Visit <a href="https://platform.deepseek.com/api_keys" class="text-rose-600 underline">DeepSeek Platform</a> to get a free API key, or use your existing OpenAI API key.</p>
+                    
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Step 2: Configure the Solver</h3>
+                    <p class="text-gray-600 mb-4">Enter your API key in the configuration section. Your key is stored locally and never sent to our servers.</p>
+                    
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Step 3: Enter Your Problem</h3>
+                    <p class="text-gray-600 mb-4">Choose the problem type and enter your functions using mathematical notation. You can also add a description in natural language.</p>
+                    
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Step 4: Get Step-by-Step Solution</h3>
+                    <p class="text-gray-600">The AI will generate a detailed solution with LaTeX-formatted mathematical expressions that you can copy or download.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8 px-4">
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i data-feather="dollar-sign" class="mr-2"></i>
+                        MicroSolver AI
+                    </h3>
+                    <p class="text-gray-400">Microeconomics problem solver with AI - 100% private</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="documentation.html" class="hover:text-white transition">Documentation</a></li>
+                        <li><a href="tutorials.html" class="hover:text-white transition">Tutorials</a></li>
+                        <li><a href="examples.html" class="hover:text-white transition">Examples</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="cookies.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/ramanambonona" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ambinintsoa-ramanambonona/" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="linkedin"></i>
+                        </a>
+                        <a href="mailto:ambinintsoa.uat.ead2@gmail.com" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="mail"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2025 MicroSolver AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

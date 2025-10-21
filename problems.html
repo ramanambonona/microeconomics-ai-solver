@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example Problems | MicroSolver AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-pink-50 min-h-screen">
+    <nav class="bg-rose-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-feather="dollar-sign" class="w-6 h-6"></i>
+                <span class="text-xl font-bold">MicroSolver AI</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-rose-200 font-medium">Home</a>
+                <a href="problems.html" class="hover:text-rose-200 font-medium">Problems</a>
+                <a href="tutorials.html" class="hover:text-rose-200 font-medium">Tutorials</a>
+                <a href="about.html" class="hover:text-rose-200 font-medium">About</a>
+            </div>
+            <button class="md:hidden">
+                <i data-feather="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="py-16 px-4 bg-gradient-to-r from-rose-500 to-pink-600 text-white">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Example Problems</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Practice with these classic microeconomics problems</p>
+        </div>
+    </section>
+
+    <section class="py-12 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Consumer Theory Problems -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="shopping-cart" class="mr-3 text-rose-600"></i>
+                        Consumer Theory
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Cobb-Douglas Utility</h3>
+                            <p class="text-gray-600 text-sm">Maximize utility: U(x,y) = x<sup>α</sup>y<sup>1-α</sup> with budget constraint: p<sub>x</sub>x + p<sub>y</sub>y = I</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Perfect Substitutes</h3>
+                            <p class="text-gray-600 text-sm">U(x,y) = ax + by with linear budget constraint</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Perfect Complements</h3>
+                            <p class="text-gray-600 text-sm">U(x,y) = min{ax, by} with fixed proportions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producer Theory Problems -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="trending-up" class="mr-3 text-rose-600"></i>
+                        Producer Theory
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Cost Minimization</h3>
+                            <p class="text-gray-600 text-sm">Minimize cost: C = wL + rK subject to Q = L<sup>α</sup>K<sup>1-α</sup></p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Profit Maximization</h3>
+                            <p class="text-gray-600 text-sm">Maximize profit: π = pQ - wL - rK with production function</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Returns to Scale</h3>
+                            <p class="text-gray-600 text-sm">Analyze production function: Q = AL<sup>α</sup>K<sup>β</sup></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Equilibrium Problems -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="bar-chart-2" class="mr-3 text-rose-600"></i>
+                        Market Equilibrium
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Linear Market</h3>
+                            <p class="text-gray-600 text-sm">Find equilibrium: Q<sub>d</sub> = a - bP, Q<sub>s</sub> = c + dP</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Tax Incidence</h3>
+                            <p class="text-gray-600 text-sm">Analyze tax effects on supply and demand</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Elasticity</h3>
+                            <p class="text-gray-600 text-sm">Calculate price elasticity of demand and supply</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Theory Problems -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="users" class="mr-3 text-rose-600"></i>
+                        Game Theory
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Prisoner's Dilemma</h3>
+                            <p class="text-gray-600 text-sm">Find Nash equilibrium in cooperation games</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Cournot Competition</h3>
+                            <p class="text-gray-600 text-sm">Quantity competition between firms</p>
+                        </div>
+                        <div class="border-l-4 border-rose-500 pl-4 py-2">
+                            <h3 class="font-semibold text-gray-800">Bertrand Competition</h3>
+                            <p class="text-gray-600 text-sm">Price competition with homogeneous goods</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-rose-50 rounded-xl p-8 text-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Ready to Solve?</h2>
+                <p class="text-gray-600 mb-6">Try these problems with our AI solver using your own API keys</p>
+                <a href="index.html" class="bg-rose-600 text-white px-6 py-3 rounded-lg hover:bg-rose-700 transition inline-flex items-center">
+                    Go to Solver
+                    <i data-feather="arrow-right" class="ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8 px-4">
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i data-feather="dollar-sign" class="mr-2"></i>
+                        MicroSolver AI
+                    </h3>
+                    <p class="text-gray-400">Microeconomics problem solver with AI - 100% private</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="documentation.html" class="hover:text-white transition">Documentation</a></li>
+                        <li><a href="tutorials.html" class="hover:text-white transition">Tutorials</a></li>
+                        <li><a href="examples.html" class="hover:text-white transition">Examples</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="cookies.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/ramanambonona" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ambinintsoa-ramanambonona/" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="linkedin"></i>
+                        </a>
+                        <a href="mailto:ambinintsoa.uat.ead2@gmail.com" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="mail"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2025 MicroSolver AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
