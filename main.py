@@ -5,7 +5,7 @@ import os
 import json
 import logging
 import requests
-from typing import Optional
+from typing import List, Dict, Optional
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO)
