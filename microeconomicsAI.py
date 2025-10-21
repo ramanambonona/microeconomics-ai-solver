@@ -7,16 +7,21 @@ import logging
 import requests
 from typing import Optional
 
-# Logging Configuration
+# Configuration du logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Microeconomics AI Solver API")
 
-# CORS Configuration
+# Configuration CORS pour le frontend GitHub Pages
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:8000", 
+        "https://microeconomicsai-solver.github.io",
+        "https://*.github.io"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -28,7 +33,7 @@ class ProblemRequest(BaseModel):
     description: str = ""
     settings: dict = {}
     provider: str = "deepseek"
-    user_api_key: str  # The user provides their API key
+    user_api_key: str  # L'utilisateur fournit sa clé API
 
 class Step(BaseModel):
     title: str
@@ -41,37 +46,32 @@ class ProblemResponse(BaseModel):
     provider: str
     success: bool = True
 
-class ErrorResponse(BaseModel):
-    error: str
-    success: bool = False
-    provider: str
-
 def call_deepseek_api(prompt: str, api_key: str):
-    """Call to the DeepSeek API with the user key"""
+    """Appel à l'API DeepSeek avec la clé utilisateur"""
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}"
     }
-
+    
     data = {
         "model": "deepseek-chat",
         "messages": [
             {
                 "role": "system",
-                "content": """You are a microeconomics expert.
-                Solve problems step-by-step using LaTeX format for mathematical formulas.
-                Use $$ for display formulas and $ for inline formulas.
-                Always return valid JSON with the following structure:
+                "content": """Vous êtes un expert en microéconomie. 
+                Résolvez les problèmes étape par étape en utilisant le format LaTeX pour les formules mathématiques. 
+                Utilisez $$ pour les formules en display et $ pour les formules inline.
+                Retournez toujours du JSON valide avec la structure suivante:
                 {
                     "steps": [
-                        {"title": "Step Title", "content": "Content in LaTeX"},
+                        {"title": "Titre de l'étape", "content": "Contenu en LaTeX"},
                         ...
                     ],
-                    "final": "Final Answer in LaTeX"
+                    "final": "Réponse finale en LaTeX"
                 }"""
             },
             {
-                "role": "user",
+                "role": "user", 
                 "content": prompt
             }
         ],
@@ -79,7 +79,7 @@ def call_deepseek_api(prompt: str, api_key: str):
         "max_tokens": 2000,
         "stream": False
     }
-
+    
     try:
         response = requests.post(
             "https://api.deepseek.com/chat/completions",
@@ -87,45 +87,45 @@ def call_deepseek_api(prompt: str, api_key: str):
             json=data,
             timeout=60
         )
-
+        
         if response.status_code == 401:
             raise Exception("Invalid DeepSeek API key. Please check your key.")
         elif response.status_code == 429:
-            raise Exception("Quota exceeded on DeepSeek. Please check your usage limit.")
+            raise Exception("DeepSeek quota exceeded. Please check your usage limits.")
         elif response.status_code != 200:
-            raise Exception(f"DeepSeek API Error: {response.status_code} - {response.text}")
-
+            raise Exception(f"DeepSeek API error: {response.status_code} - {response.text}")
+        
         return response.json()
-
+        
     except requests.exceptions.Timeout:
-        raise Exception("DeepSeek API Timeout")
+        raise Exception("DeepSeek API timeout")
     except Exception as e:
-        raise Exception(f"DeepSeek Error: {str(e)}")
+        raise Exception(f"DeepSeek error: {str(e)}")
 
 def call_openai_api(prompt: str, api_key: str):
-    """Call to the OpenAI API with the user key"""
+    """Appel à l'API OpenAI avec la clé utilisateur"""
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key)
-
+        
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {
-                    "role": "system",
-                    "content": """You are a microeconomics expert.
-                    Solve problems step-by-step using LaTeX format for mathematical formulas.
+                    "role": "system", 
+                    "content": """You are a microeconomics expert. 
+                    Solve problems step by step using LaTeX format for mathematical formulas. 
                     Always return valid JSON with the following structure:
                     {
                         "steps": [
-                            {"title": "Step Title", "content": "Content in LaTeX"},
+                            {"title": "Step title", "content": "LaTeX content"},
                             ...
                         ],
-                        "final": "Final Answer in LaTeX"
+                        "final": "Final answer in LaTeX"
                     }"""
                 },
                 {
-                    "role": "user",
+                    "role": "user", 
                     "content": prompt
                 }
             ],
@@ -133,7 +133,7 @@ def call_openai_api(prompt: str, api_key: str):
             max_tokens=2000,
             response_format={"type": "json_object"}
         )
-
+        
         return {
             "choices": [{"message": {"content": response.choices[0].message.content}}],
             "usage": {
@@ -148,17 +148,17 @@ def call_openai_api(prompt: str, api_key: str):
         elif "invalid_api_key" in str(e):
             raise Exception("Invalid OpenAI API key. Please check your key.")
         else:
-            raise Exception(f"OpenAI Error: {str(e)}")
+            raise Exception(f"OpenAI error: {str(e)}")
 
 def get_demo_response(problem_type: str, params: dict):
-    """Pre-defined demonstration responses"""
+    """Réponses de démonstration pré-définies"""
     demo_responses = {
         "consumer": {
             "steps": [
                 {"title": "Cobb-Douglas Utility Function", "content": "U(x,y) = x^{\\\\alpha} y^{1-\\\\alpha}"},
                 {"title": "Budget Constraint", "content": "p_x x + p_y y = I"},
                 {"title": "Lagrangian", "content": "L = x^{\\\\alpha} y^{1-\\\\alpha} + \\\\lambda(I - p_x x - p_y y)"},
-                {"title": "First-Order Conditions", "content": "\\\\frac{\\\\partial L}{\\\\partial x} = \\\\alpha x^{\\\\alpha-1} y^{1-\\\\alpha} - \\\\lambda p_x = 0"},
+                {"title": "First Order Conditions", "content": "\\\\frac{\\\\partial L}{\\\\partial x} = \\\\alpha x^{\\\\alpha-1} y^{1-\\\\alpha} - \\\\lambda p_x = 0"},
                 {"title": "Solution for x", "content": "x^* = \\\\frac{\\\\alpha I}{p_x}"},
                 {"title": "Solution for y", "content": "y^* = \\\\frac{(1-\\\\alpha) I}{p_y}"}
             ],
@@ -169,7 +169,7 @@ def get_demo_response(problem_type: str, params: dict):
                 {"title": "Production Function", "content": "Q = L^{\\\\alpha} K^{1-\\\\alpha}"},
                 {"title": "Cost Function", "content": "C = wL + rK"},
                 {"title": "Cost Minimization", "content": "\\\\min_{L,K} wL + rK \\\\quad \\\\text{s.t.} \\\\quad L^{\\\\alpha} K^{1-\\\\alpha} = Q"},
-                {"title": "Technical Rate of Substitution", "content": "MRTS = \\\\frac{MP_L}{MP_K} = \\\\frac{\\\\alpha K}{(1-\\\\alpha) L} = \\\\frac{w}{r}"},
+                {"title": "Technical Rate of Substitution", "content": "TRS = \\\\frac{MP_L}{MP_K} = \\\\frac{\\\\alpha K}{(1-\\\\alpha) L} = \\\\frac{w}{r}"},
                 {"title": "Conditional Labor Demand", "content": "L^* = Q \\\\left(\\\\frac{\\\\alpha r}{(1-\\\\alpha) w}\\\\right)^{1-\\\\alpha}"}
             ],
             "final": "L^* = Q \\\\left(\\\\frac{\\\\alpha r}{(1-\\\\alpha) w}\\\\right)^{1-\\\\alpha}, \\\\quad K^* = Q \\\\left(\\\\frac{(1-\\\\alpha) w}{\\\\alpha r}\\\\right)^{\\\\alpha}"
@@ -187,19 +187,19 @@ def get_demo_response(problem_type: str, params: dict):
         "game": {
             "steps": [
                 {"title": "Payoff Matrix", "content": "\\\\begin{pmatrix} (3,3) & (0,5) \\\\\\\\ (5,0) & (1,1) \\\\end{pmatrix}"},
-                {"title": "Nash Equilibrium", "content": "Search for best responses"},
+                {"title": "Nash Equilibrium", "content": "Finding best responses"},
                 {"title": "Strategy Analysis", "content": "Mutual defection is an equilibrium"},
-                {"title": "Prisoner's Dilemma", "content": "The equilibrium is not socially optimal"}
+                {"title": "Prisoner's Dilemma", "content": "Equilibrium is not socially optimal"}
             ],
-            "final": "Nash Equilibrium: (Defection, Defection) with payoffs (1,1)"
+            "final": "Nash Equilibrium: (Defect, Defect) with payoffs (1,1)"
         }
     }
-
+    
     response_data = demo_responses.get(problem_type, {
-        "steps": [{"title": "Demonstration Mode", "content": "Use your own API key for personalized AI solutions"}],
-        "final": "Solution in demonstration mode - Add your API key for AI"
+        "steps": [{"title": "Demo Mode", "content": "Use your own API key for personalized AI solutions"}],
+        "final": "Solution in demo mode - Add your API key for AI"
     })
-
+    
     return ProblemResponse(
         steps=[Step(**step) for step in response_data["steps"]],
         final=response_data["final"],
@@ -209,7 +209,7 @@ def get_demo_response(problem_type: str, params: dict):
 @app.get("/")
 async def root():
     return {
-        "message": "Microeconomics AI Solver API",
+        "message": "Microeconomics AI Solver API", 
         "version": "2.0.0",
         "status": "healthy",
         "note": "Users provide their own API keys"
@@ -223,57 +223,57 @@ async def health_check():
 async def solve_problem(request: ProblemRequest):
     try:
         logger.info(f"Solving problem of type: {request.type} with provider: {request.provider}")
-
-        # Check if the user has provided an API key
+        
+        # Vérifier si l'utilisateur a fourni une clé API
         if not request.user_api_key or not request.user_api_key.strip():
             logger.info("No API key provided, using demo mode")
             return get_demo_response(request.type, request.params)
-
-        # Validate API key format
+        
+        # Valider le format de la clé API
         if not request.user_api_key.startswith('sk-'):
             raise Exception("Invalid API key format. API keys usually start with 'sk-'.")
-
-        # Build the prompt
+        
+        # Construire le prompt
         prompt = build_prompt(request.type, request.params, request.description, request.settings)
-
-        # Call the API with the user key
+        
+        # Appeler l'API avec la clé utilisateur
         if request.provider == "deepseek":
             api_response = call_deepseek_api(prompt, request.user_api_key.strip())
         elif request.provider == "openai":
             api_response = call_openai_api(prompt, request.user_api_key.strip())
         else:
             return get_demo_response(request.type, request.params)
-
-        # Process the response
+        
+        # Traiter la réponse
         content = api_response["choices"][0]["message"]["content"]
         result = parse_api_response(content)
         result.provider = request.provider
-
-        # Add token usage information
+        
+        # Ajouter les informations d'usage des tokens
         if "usage" in api_response:
             result.token_usage = {
                 "total": api_response["usage"]["total_tokens"],
                 "prompt": api_response["usage"]["prompt_tokens"],
                 "completion": api_response["usage"]["completion_tokens"]
             }
-
+        
         return result
-
+        
     except Exception as e:
         logger.error(f"Error solving problem: {str(e)}")
-        # Return a structured error response
+        # Retourner une réponse d'erreur structurée
         return ProblemResponse(
             steps=[Step(title="Error", content=f"Error with {request.provider}: {str(e)}")],
-            final=f"Could not solve the problem: {str(e)}",
+            final=f"Cannot solve problem: {str(e)}",
             provider=request.provider,
             success=False
         )
 
 def build_prompt(problem_type: str, params: dict, description: str = "", settings: dict = None) -> str:
-    """Builds the prompt for the API"""
-
+    """Construit le prompt pour l'API"""
+    
     prompt = f"Solve this microeconomics problem of type {problem_type}.\n\n"
-
+    
     if problem_type == "consumer":
         prompt += f"Utility function: {params.get('utility', 'Not specified')}\n"
         prompt += f"Budget constraint: {params.get('constraint', 'Not specified')}\n"
@@ -286,44 +286,50 @@ def build_prompt(problem_type: str, params: dict, description: str = "", setting
         prompt += f"Supply function: {params.get('supply', 'Not specified')}\n"
     elif problem_type == "game":
         prompt += f"Payoff matrix: {params.get('payoffs', 'Not specified')}\n"
-
+    
     if description:
         prompt += f"\nAdditional description: {description}\n"
-
+    
     prompt += """
     \nProvide the solution in the following JSON format:
     {
         "steps": [
-            {"title": "Step Title", "content": "Content in LaTeX"},
+            {"title": "Step title", "content": "LaTeX content"},
             ...
         ],
-        "final": "Final Answer in LaTeX"
+        "final": "Final answer in LaTeX"
     }
-
+    
     Use $$ for display formulas and $ for inline formulas.
     """
-
+    
     return prompt
 
 def parse_api_response(response: str) -> ProblemResponse:
-    """Parses the API response"""
+    """Parse la réponse de l'API"""
     try:
         data = json.loads(response)
-
+        
         if "steps" not in data or "final" not in data:
             raise ValueError("Invalid response format")
-
+        
         steps = []
         for step_data in data["steps"]:
             if isinstance(step_data, dict) and "title" in step_data and "content" in step_data:
                 steps.append(Step(title=step_data["title"], content=step_data["content"]))
-
+        
         return ProblemResponse(steps=steps, final=data["final"])
-
+        
     except (json.JSONDecodeError, ValueError) as e:
         logger.warning(f"Failed to parse API response as JSON: {e}")
-        # Fallback: create a basic response
+        # Fallback: créer une réponse basique
         return ProblemResponse(
             steps=[Step(title="AI Response", content=response)],
             final=response[:200] + "..." if len(response) > 200 else response
         )
+
+# Pour le déploiement sur Render
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
