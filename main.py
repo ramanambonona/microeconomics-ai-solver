@@ -20,7 +20,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:8000",
-        "https://microeconomicsai-solver.github.io",
+        "https://ramanambonona.github.io/microeconomicsAI-solver",
     ],
     allow_origin_regex=r"^https://.*\.github\.io$",
     allow_credentials=True,
